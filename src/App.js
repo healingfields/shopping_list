@@ -1,21 +1,19 @@
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
+import Header from "./components/Header/Header";
+import  {createGlobalStyle} from "styled-components";
 
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const GlobalStyle = createGlobalStyle`
+  body{
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+  }`;
+
+function App() {
+    return(
+        <>
+            <GlobalStyle />
+            <Header/>
+        </>
   );
 }
 
