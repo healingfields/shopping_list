@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {Link, useNavigate} from 'react-router-dom';
 import Navbar from "../components/Navbar/Navbar";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import ListsContext from "../context/ListsContext";
 
 const ListContainer = styled.div`
@@ -32,7 +32,11 @@ const Lists = () => {
 
     let navigate = useNavigate();
 
-    const {lists, loading, error} = useContext(ListsContext);
+    const {loading, lists, error, fetchLists} = useContext(ListsContext);
+
+    useEffect(()=>{
+        !lists.length && fetchLists()
+    }, [fetchLists, lists])
 
     return(
         <>
