@@ -4,6 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import Navbar from "../components/Navbar/Navbar";
 import ListItem from "../components/ListItem/ListItem";
 import ItemsContext from "../context/ItemsContext";
+import listItem from "../components/ListItem/ListItem";
 
 const ListItemWrapper = styled.div`
   display: flex;
@@ -16,15 +17,13 @@ const ListDetail = () => {
     let navigate = useNavigate();
     const {listId} = useParams();
 
-    const {loading, items:data  , error} = useContext(ItemsContext)
+    const {loading, items, error, fetchItems} = useContext(ItemsContext)
 
-    const [items, setItems] = useState([]);
+
 
     useEffect(()=>{
-        data &&
-            listId &&
-            setItems(data.filter((item)=>item.listId === parseInt(listId)));
-    }, [data, listId]);
+        listId && !items.length && fetchItems(listId);
+    }, [fetchItems, listId, items]);
 
     return(
         <>
