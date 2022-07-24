@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import {useNavigate, useParams} from "react-router-dom";
-import useDataFetching from "../hooks/useDataFetching";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Navbar from "../components/Navbar/Navbar";
 import ListItem from "../components/ListItem/ListItem";
+import ItemsContext from "../context/ItemsContext";
 
 const ListItemWrapper = styled.div`
   display: flex;
@@ -16,9 +16,7 @@ const ListDetail = () => {
     let navigate = useNavigate();
     const {listId} = useParams();
 
-    const [loading, data, error] = useDataFetching(
-        'https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/items/'
-    );
+    const {loading, items:data  , error} = useContext(ItemsContext)
 
     const [items, setItems] = useState([]);
 
