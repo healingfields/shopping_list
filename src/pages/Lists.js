@@ -1,7 +1,8 @@
-import useDataFetching from "../hooks/useDataFetching";
 import styled from "styled-components";
 import {Link, useNavigate} from 'react-router-dom';
 import Navbar from "../components/Navbar/Navbar";
+import {useContext} from "react";
+import ListsContext from "../context/ListsContext";
 
 const ListContainer = styled.div`
   display: flex;
@@ -31,9 +32,7 @@ const Lists = () => {
 
     let navigate = useNavigate();
 
-    const [loading, data, error] = useDataFetching(
-        'https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/lists'
-    );
+    const {lists, loading, error} = useContext(ListsContext);
 
     return(
         <>
@@ -42,7 +41,7 @@ const Lists = () => {
                 {loading || error ? (
                     <span>{error || 'Loading ...'}</span>
                 ):(
-                    data.map((list)=>(
+                    lists.map((list)=>(
                         <ListLink key={list.id} to={`list/${list.id}`}>
                             <Title>{list.title}</Title>
                         </ListLink>
