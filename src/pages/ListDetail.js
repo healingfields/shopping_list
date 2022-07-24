@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import {useNavigate, useParams} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import ListItem from "../components/ListItem/ListItem";
 import ItemsContext from "../context/ItemsContext";
-import listItem from "../components/ListItem/ListItem";
+
 
 const ListItemWrapper = styled.div`
   display: flex;
@@ -19,10 +19,9 @@ const ListDetail = () => {
 
     const {loading, items, error, fetchItems} = useContext(ItemsContext)
 
-
-
     useEffect(()=>{
         listId && !items.length && fetchItems(listId);
+        console.log(error)
     }, [fetchItems, listId, items]);
 
     return(
