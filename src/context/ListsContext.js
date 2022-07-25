@@ -1,10 +1,10 @@
 import {createContext, useCallback, useReducer} from "react";
-import useDataFetching from "../hooks/useDataFetching";
 
 export const ListsContext = createContext();
 
 const initialState = {
     lists: [],
+    list:{},
     error: '',
     loading: true
 }
@@ -23,6 +23,19 @@ const reducer = (state, action) => {
                 lists:[],
                 loading:false
             };
+        case 'GET_LIST_SUCCESS':
+            return {
+                ...state,
+                list:action.payload,
+                loading:false
+            };
+        case 'GET_LIST_ERROR':
+            return{
+                ...state,
+                list:[],
+                loading:false,
+                error:action.payload
+            }
         default:
             return state;
     }
@@ -49,9 +62,24 @@ export const ListsContextProvider = ({children}) => {
         }
     }, [])
 
+    const fetchList = useCallback(async (listId)=>{
+        try{
+            const data = await fetch(
+                `https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/lists/${listId}`
+            );
+            const result = await data.json();
+
+            if(result){
+                dispatch({type:'GET_LIST_SUCCESS', payload:result});
+            }
+        }catch (e) {
+            dispatch({type:'GET_LIST_ERROR', payload:e.message});
+        }
+    }, [])
+
 
     return (
-        <ListsContext.Provider value={{...state, fetchLists}}>
+        <ListsContext.Provider value={{...state, fetchLists, fetchList}}>
             {children}
         </ListsContext.Provider>
     )
