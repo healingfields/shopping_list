@@ -4,8 +4,7 @@ import Lists from "./pages/Lists";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import ListDetail from "./pages/ListDetail";
 import ListForm from "./pages/ListForm";
-import {ListsContextProvider} from "./context/ListsContext";
-import {ItemsContextProvider} from "./context/ItemsContext";
+import AppContext from "./context/AppContext";
 
 const GlobalStyle = createGlobalStyle`
   body{
@@ -20,15 +19,13 @@ function App() {
             <GlobalStyle />
             <BrowserRouter>
                 <Header/>
-                <ListsContextProvider>
-                    <ItemsContextProvider>
+                    <AppContext>
                         <Routes>
                             <Route path='/' element={ <Lists/>}/>
                             <Route path='/list/:listId/new' element={<ListForm/>}/>
                             <Route path='/list/:listId' element={<ListDetail/>}/>
                         </Routes>
-                    </ItemsContextProvider>
-                </ListsContextProvider>
+                    </AppContext>
             </BrowserRouter>
         </>
   );
