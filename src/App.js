@@ -1,10 +1,12 @@
 import Header from "./components/Header/Header";
 import  {createGlobalStyle} from "styled-components";
-import Lists from "./pages/Lists";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import ListDetail from "./pages/ListDetail";
-import ListForm from "./pages/ListForm";
 import AppContext from "./context/AppContext";
+import {lazy, Suspense} from "react";
+
+const Lists = lazy(()=> import(/* webpackChunkName:"Lists"*/'./pages/Lists'));
+const ListDetail = lazy(()=> import(/* webpackChunkName:"ListDetail"*/'./pages/ListDetail'));
+const ListForm = lazy(()=> import(/* webpackChunkName:"ListForm"*/'./pages/ListForm'))
 
 const GlobalStyle = createGlobalStyle`
   body{
@@ -19,6 +21,7 @@ function App() {
             <GlobalStyle />
             <BrowserRouter>
                 <Header/>
+                <Suspense fallback={<div>Loading ...</div>}>
                     <AppContext>
                         <Routes>
                             <Route path='/' element={ <Lists/>}/>
@@ -26,6 +29,7 @@ function App() {
                             <Route path='/list/:listId' element={<ListDetail/>}/>
                         </Routes>
                     </AppContext>
+                </Suspense>
             </BrowserRouter>
         </>
   );
